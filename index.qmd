@@ -105,7 +105,16 @@ options(width = 75)
 
 ![](img/dplyr-backends-4.svg)
 
-# Case study 1: [Visualizing a billion rows of data](https://blog.djnavarro.net/visualising-a-billion-rows/)
+# How do I get started?
+
+This talk isn't meant to be a tutorial but I still think it's a kindness to list some resources to help you get started 
+
+
+## The useR! workshop
+
+## Some blog posts!
+
+# Case study 1: [Visualizing a billion rows of data in less time than it takes to make a cup of coffee](https://blog.djnavarro.net/visualising-a-billion-rows/)
 
 ## Load packages
 
@@ -220,3 +229,6 @@ render_image(pickup_grid, cols = c("#002222", "white", "#800020"))
 ```
 
 
+# Case study 2: [Absurdly fast data sharing between R and Python](https://blog.djnavarro.net/reticulated-arrow/)
+
+# Case study 3: [Efficiently transferring Arrow data over a network with Arrow Flight]()
