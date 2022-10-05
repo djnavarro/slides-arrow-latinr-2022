@@ -3,3 +3,10 @@ dplyr
 tictoc
 tidyr
 ggplot2
+tidyverse
+tibble
+readr
+purrr
+stringr
+forcats
+reticulate

@@ -3,7 +3,7 @@ title: "A tour of the Apache Arrow ecosystem for the R community"
 author: "Danielle Navarro"
 execute:
   echo: true
-  fig-width: 6
+  fig-width: 10
   fig-height: 6
 format: 
   revealjs:
@@ -114,18 +114,20 @@ This talk isn't meant to be a tutorial but I still think it's a kindness to list
 
 ## Some blog posts!
 
-# Case study 1: [Visualizing a billion rows of data in less time than it takes to make a cup of coffee](https://blog.djnavarro.net/visualising-a-billion-rows/)
 
-## Load packages
+## Packages for this talk
 
 ```{r load-packages}
 #| message: false
+library(tidyverse)
+library(reticulate)
 library(arrow)
-library(dplyr)
 library(tictoc)
-library(tidyr)
-library(ggplot2)
 ```
+
+
+# Case study 1: [Visualizing a billion rows of data in less time than it takes to make a cup of coffee](https://blog.djnavarro.net/visualising-a-billion-rows/)
+
 
 ## Open the NYC taxi data
 
@@ -231,4 +233,115 @@ render_image(pickup_grid, cols = c("#002222", "white", "#800020"))
 
 # Case study 2: [Absurdly fast data sharing between R and Python](https://blog.djnavarro.net/reticulated-arrow/)
 
+## Set up reticulate and python environment
+
+```{r python-setup}
+conda_list()
+use_miniconda("reptilia")
+```
+
+
+```{r python-env}
+# conda_create("reptilia", packages = c("pandas", "pyarrow"))
+```
+
+## Load data as a native R data frame 
+
+```{r read-taxa-dataframe}
+r_taxa <- read_csv2("taxa.csv")
+glimpse(r_taxa)
+```
+
+## Copy to Python pandas
+
+```{r copy-pandas}
+py_taxa <- r_to_py(r_taxa)
+py_taxa
+```
+
+## Load as an Arrow table in R
+
+```{r read-taxa-table}
+r_taxa_arrow <- read_delim_arrow(
+  file = "taxa.csv", 
+  delim = ";", 
+  as_data_frame = FALSE
+)
+glimpse(r_taxa_arrow)
+```
+
+## Pass an Arrow table from R to Python
+
+```{r transfer-to-python}
+py_taxa_arrow <- r_to_py(r_taxa_arrow)
+py_taxa_arrow
+```
+
+
+## Data wrangling across languages
+
+```{python polyglot-data-wrangle-1}
+# Python code
+counts_arrow = r.py_taxa_arrow                       \
+                .group_by("family")                  \
+                .aggregate([("taxon_id", "count")])  \
+                .sort_by([("family", "ascending")])
+```
+
+```{r polyglot-data-wrangle-2}
+# R code
+glimpse(py$counts_arrow)
+```
+
+
+## Some benchmarking code...
+
+```{r handover-benchmark}
+#| cache: true
+handover_time <- function(n, arrow = FALSE) {
+  data_in_r <- slice_sample(r_taxa, n = n, replace = TRUE)
+  if(arrow) data_in_r <- arrow_table(data_in_r)
+  tic()
+  data_in_python <- r_to_py(data_in_r)
+  t <- toc(quiet = TRUE)
+  return(t$toc - t$tic)
+}
+
+times <- tibble(
+  n = seq(100000, 10000000, length.out = 100),
+  data_frame = map_dbl(n, handover_time),
+  arrow_table = map_dbl(n, handover_time, arrow = TRUE),
+)
+```
+
+## How long does it take to pass data?
+
+```{r plot-benchmarks}
+#| echo: false
+times |> 
+  pivot_longer(
+    cols = c("data_frame", "arrow_table"), 
+    names_to = "type", 
+    values_to = "time"
+  ) |> 
+  mutate(
+    type = type |> 
+      factor(
+        levels = c("data_frame", "arrow_table"),
+        labels = c("Data Frames", "Arrow Tables")
+      )
+  ) |>
+  ggplot(aes(n / 1000000, time)) + 
+  geom_point() + 
+  facet_wrap(~type) + 
+  theme_bw(base_size = 24) + 
+  labs(
+    x = "Millons of Rows (of Taxa Data)",
+    y = "Handover Time (Seconds)"
+  )
+```
+
+
 # Case study 3: [Efficiently transferring Arrow data over a network with Arrow Flight]()
+
+

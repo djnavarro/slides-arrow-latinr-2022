@@ -480,21 +480,20 @@
 </section>
 <section id="some-blog-posts" class="slide level2">
 <h2>Some blog posts!</h2>
+</section>
+<section id="packages-for-this-talk" class="slide level2">
+<h2>Packages for this talk</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(arrow)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tictoc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section></section>
 <section>
 <section id="case-study-1-visualizing-a-billion-rows-of-data-in-less-time-than-it-takes-to-make-a-cup-of-coffee" class="title-slide slide level1 center">
 <h1>Case study 1: <a href="https://blog.djnavarro.net/visualising-a-billion-rows/">Visualizing a billion rows of data in less time than it takes to make a cup of coffee</a></h1>
 
-</section>
-<section id="load-packages" class="slide level2">
-<h2>Load packages</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(arrow)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(tictoc)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="open-the-nyc-taxi-data" class="slide level2">
 <h2>Open the NYC taxi data</h2>
@@ -504,7 +503,7 @@
 </section>
 <section id="glimpse-the-nyc-taxi-data" class="slide level2">
 <h2>Glimpse the NYC taxi data</h2>
-<div class="cell" data-hash="index_cache/revealjs/glimpse-nyc_c3bee0ce419d991e312a3d2b358018a0">
+<div class="cell" data-hash="index_cache/revealjs/glimpse-nyc_e6084505b16c1b0f7194ead67e00109f">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">glimpse</span>(nyc_taxi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>FileSystemDataset with 158 Parquet files
@@ -547,7 +546,7 @@ $ month                    &lt;int32&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 </section>
 <section id="count-pickups-at-each-image-pixel" class="slide level2">
 <h2>Count pickups at each image pixel</h2>
-<div class="cell" data-hash="index_cache/revealjs/count-pickups_e6a9f09e66e30e1d7e7724f803129e41">
+<div class="cell" data-hash="index_cache/revealjs/count-pickups_5722e5ae34f9580de43bc852adbaf1b1">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">tic</span>()</span>
 <span id="cb6-2"><a href="#cb6-2"></a>pickup <span class="ot">&lt;-</span> nyc_taxi <span class="sc">|&gt;</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">filter</span>(</span>
@@ -565,7 +564,7 @@ $ month                    &lt;int32&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 <span id="cb6-15"><a href="#cb6-15"></a>  <span class="fu">collect</span>()</span>
 <span id="cb6-16"><a href="#cb6-16"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>83.775 sec elapsed</code></pre>
+<pre><code>60.942 sec elapsed</code></pre>
 </div>
 </div>
 </section>
@@ -576,22 +575,22 @@ $ month                    &lt;int32&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 4,677,864
 Columns: 3
-$ x      &lt;int&gt; 911, 816, 1030, 903, 628, 809, 1019, 1234, 1394, 1153, 116…
-$ y      &lt;int&gt; 1881, 1745, 2089, 2343, 1710, 2109, 2189, 2246, 2360, 2110…
-$ pickup &lt;int&gt; 6208, 6267, 4204, 13808, 12928, 10772, 6822, 6050, 385, 10…</code></pre>
+$ x      &lt;int&gt; 751, 663, 1993, 1213, 595, 884, 652, 752, 1292, 909, 1201,…
+$ y      &lt;int&gt; 1330, 1827, 2758, 2868, 1946, 1876, 1642, 1621, 2222, 2309…
+$ pickup &lt;int&gt; 918, 2256, 1, 6649, 20319, 1892, 304, 7489, 3308, 15392, 1…</code></pre>
 </div>
 </div>
 </section>
 <section id="place-pickup-counts-on-a-grid" class="slide level2">
 <h2>Place pickup counts on a grid</h2>
-<div class="cell" data-hash="index_cache/revealjs/grid-pickup-counts_4bd34e54f37eef594f75e5a9ad3ad1f1">
+<div class="cell" data-hash="index_cache/revealjs/grid-pickup-counts_5c7f8e16835d48ddc04efc3501b3d959">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">tic</span>()</span>
 <span id="cb10-2"><a href="#cb10-2"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>pixels, <span class="at">y =</span> <span class="dv">1</span><span class="sc">:</span>pixels) <span class="sc">|&gt;</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">left_join</span>(pickup, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">mutate</span>(<span class="at">pickup =</span> <span class="fu">replace_na</span>(pickup,  <span class="dv">0</span>))</span>
 <span id="cb10-5"><a href="#cb10-5"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>10.559 sec elapsed</code></pre>
+<pre><code>10.3 sec elapsed</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -653,12 +652,173 @@ $ pickup &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0�
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">render_image</span>(pickup_grid, <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"#002222"</span>, <span class="st">"white"</span>, <span class="st">"#800020"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="index_files/figure-revealjs/data-vis-1.png" width="576" class="r-stretch"></section></section>
+<img data-src="index_files/figure-revealjs/data-vis-1.png" width="960" class="r-stretch"></section></section>
+<section>
 <section id="case-study-2-absurdly-fast-data-sharing-between-r-and-python" class="title-slide slide level1 center">
 <h1>Case study 2: <a href="https://blog.djnavarro.net/reticulated-arrow/">Absurdly fast data sharing between R and Python</a></h1>
 
 </section>
+<section id="set-up-reticulate-and-python-environment" class="slide level2">
+<h2>Set up reticulate and python environment</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">conda_list</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          name                                                 python
+1         base                   /home/danielle/miniconda3/bin/python
+2 continuation /home/danielle/miniconda3/envs/continuation/bin/python
+3 r-reticulate /home/danielle/miniconda3/envs/r-reticulate/bin/python
+4     reptilia     /home/danielle/miniconda3/envs/reptilia/bin/python
+5       tf-art       /home/danielle/miniconda3/envs/tf-art/bin/python</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">use_miniconda</span>(<span class="st">"reptilia"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># conda_create("reptilia", packages = c("pandas", "pyarrow"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-data-as-a-native-r-data-frame" class="slide level2">
+<h2>Load data as a native R data frame</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>r_taxa <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">"taxa.csv"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">glimpse</span>(r_taxa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 14,930
+Columns: 10
+$ taxon_id                &lt;chr&gt; "Ablepharus_alaicus", "Ablepharus_alaicus…
+$ family                  &lt;chr&gt; "Scincidae", "Scincidae", "Scincidae", "S…
+$ subfamily               &lt;chr&gt; "Eugongylinae", "Eugongylinae", "Eugongyl…
+$ genus                   &lt;chr&gt; "Ablepharus", "Ablepharus", "Ablepharus",…
+$ subgenus                &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ specific_epithet        &lt;chr&gt; "alaicus", "alaicus", "alaicus", "alaicus…
+$ authority               &lt;chr&gt; "ELPATJEVSKY, 1901", "ELPATJEVSKY, 1901",…
+$ infraspecific_marker    &lt;chr&gt; NA, "subsp.", "subsp.", "subsp.", NA, NA,…
+$ infraspecific_epithet   &lt;chr&gt; NA, "alaicus", "kucenkoi", "yakovlevae", …
+$ infraspecific_authority &lt;chr&gt; NA, "ELPATJEVSKY, 1901", "NIKOLSKY, 1902"…</code></pre>
+</div>
+</div>
+</section>
+<section id="copy-to-python-pandas" class="slide level2">
+<h2>Copy to Python pandas</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>py_taxa <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(r_taxa)</span>
+<span id="cb24-2"><a href="#cb24-2"></a>py_taxa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            taxon_id  ...    infraspecific_authority
+0                 Ablepharus_alaicus  ...                         NA
+1         Ablepharus_alaicus_alaicus  ...          ELPATJEVSKY, 1901
+2        Ablepharus_alaicus_kucenkoi  ...             NIKOLSKY, 1902
+3      Ablepharus_alaicus_yakovlevae  ...         (EREMCHENKO, 1983)
+4              Ablepharus_anatolicus  ...                         NA
+...                              ...  ...                        ...
+14925           Zygaspis_quadrifrons  ...                         NA
+14926               Zygaspis_vandami  ...                         NA
+14927     Zygaspis_vandami_arenicola  ...  BROADLEY &amp; BROADLEY, 1997
+14928       Zygaspis_vandami_vandami  ...         (FITZSIMONS, 1930)
+14929              Zygaspis_violacea  ...                         NA
 
+[14930 rows x 10 columns]</code></pre>
+</div>
+</div>
+</section>
+<section id="load-as-an-arrow-table-in-r" class="slide level2">
+<h2>Load as an Arrow table in R</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>r_taxa_arrow <span class="ot">&lt;-</span> <span class="fu">read_delim_arrow</span>(</span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="at">file =</span> <span class="st">"taxa.csv"</span>, </span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="at">delim =</span> <span class="st">";"</span>, </span>
+<span id="cb26-4"><a href="#cb26-4"></a>  <span class="at">as_data_frame =</span> <span class="cn">FALSE</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a>)</span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="fu">glimpse</span>(r_taxa_arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Table
+14,930 rows x 10 columns
+$ taxon_id                &lt;string&gt; "Ablepharus_alaicus", "Ablepharus_alaicu…
+$ family                  &lt;string&gt; "Scincidae", "Scincidae", "Scincidae", "…
+$ subfamily               &lt;string&gt; "Eugongylinae", "Eugongylinae", "Eugongy…
+$ genus                   &lt;string&gt; "Ablepharus", "Ablepharus", "Ablepharus"…
+$ subgenus                  &lt;null&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ specific_epithet        &lt;string&gt; "alaicus", "alaicus", "alaicus", "alaicu…
+$ authority               &lt;string&gt; "ELPATJEVSKY, 1901", "ELPATJEVSKY, 1901"…
+$ infraspecific_marker    &lt;string&gt; NA, "subsp.", "subsp.", "subsp.", NA, NA…
+$ infraspecific_epithet   &lt;string&gt; NA, "alaicus", "kucenkoi", "yakovlevae",…
+$ infraspecific_authority &lt;string&gt; NA, "ELPATJEVSKY, 1901", "NIKOLSKY, 1902…</code></pre>
+</div>
+</div>
+</section>
+<section id="pass-an-arrow-table-from-r-to-python" class="slide level2">
+<h2>Pass an Arrow table from R to Python</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>py_taxa_arrow <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(r_taxa_arrow)</span>
+<span id="cb28-2"><a href="#cb28-2"></a>py_taxa_arrow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>pyarrow.Table
+taxon_id: string
+family: string
+subfamily: string
+genus: string
+subgenus: null
+specific_epithet: string
+authority: string
+infraspecific_marker: string
+infraspecific_epithet: string
+infraspecific_authority: string
+----
+taxon_id: [["Ablepharus_alaicus","Ablepharus_alaicus_alaicus","Ablepharus_alaicus_kucenkoi","Ablepharus_alaicus_yakovlevae","Ablepharus_anatolicus",...,"Plestiodon_egregius_onocrepis","Plestiodon_egregius_similis","Plestiodon_elegans","Plestiodon_fasciatus","Plestiodon_finitimus"],["Plestiodon_gilberti","Plestiodon_gilberti_cancellosus","Plestiodon_gilberti_gilberti","Plestiodon_gilberti_placerensis","Plestiodon_gilberti_rubricaudatus",...,"Zygaspis_quadrifrons","Zygaspis_vandami","Zygaspis_vandami_arenicola","Zygaspis_vandami_vandami","Zygaspis_violacea"]]
+family: [["Scincidae","Scincidae","Scincidae","Scincidae","Scincidae",...,"Scincidae","Scincidae","Scincidae","Scincidae","Scincidae"],["Scincidae","Scincidae","Scincidae","Scincidae","Scincidae",...,"Amphisbaenidae","Amphisbaenidae","Amphisbaenidae","Amphisbaenidae","Amphisbaenidae"]]
+subfamily: [["Eugongylinae","Eugongylinae","Eugongylinae","Eugongylinae","Eugongylinae",...,"Scincinae","Scincinae","Scincinae","Scincinae","Scincinae"],["Scincinae","Scincinae","Scincinae","Scincinae","Scincinae",...,null,null,null,null,null]]
+genus: [["Ablepharus","Ablepharus","Ablepharus","Ablepharus","Ablepharus",...,"Plestiodon","Plestiodon","Plestiodon","Plestiodon","Plestiodon"],["Plestiodon","Plestiodon","Plestiodon","Plestiodon","Plestiodon",...,"Zygaspis","Zygaspis","Zygaspis","Zygaspis","Zygaspis"]]
+subgenus: [11142 nulls,3788 nulls]
+specific_epithet: [["alaicus","alaicus","alaicus","alaicus","anatolicus",...,"egregius","egregius","elegans","fasciatus","finitimus"],["gilberti","gilberti","gilberti","gilberti","gilberti",...,"quadrifrons","vandami","vandami","vandami","violacea"]]
+authority: [["ELPATJEVSKY, 1901","ELPATJEVSKY, 1901","ELPATJEVSKY, 1901","ELPATJEVSKY, 1901","SCHMIDTLER, 1997",...,"BAIRD, 1858","BAIRD, 1858","(BOULENGER, 1887)","(LINNAEUS, 1758)","OKAMOTO &amp; HIKIDA, 2012"],["(VAN DENBURGH, 1896)","(VAN DENBURGH, 1896)","(VAN DENBURGH, 1896)","(VAN DENBURGH, 1896)","(VAN DENBURGH, 1896)",...,"(PETERS, 1862)","(FITZSIMONS, 1930)","(FITZSIMONS, 1930)","(FITZSIMONS, 1930)","(PETERS, 1854)"]]
+infraspecific_marker: [[null,"subsp.","subsp.","subsp.",null,...,"subsp.","subsp.",null,null,null],[null,"subsp.","subsp.","subsp.","subsp.",...,null,null,"subsp.","subsp.",null]]
+infraspecific_epithet: [[null,"alaicus","kucenkoi","yakovlevae",null,...,"onocrepis","similis",null,null,null],[null,"cancellosus","gilberti","placerensis","rubricaudatus",...,null,null,"arenicola","vandami",null]]
+infraspecific_authority: [[null,"ELPATJEVSKY, 1901","NIKOLSKY, 1902","(EREMCHENKO, 1983)",null,...,"(COPE, 1871)","(MCCONKEY, 1957)",null,null,null],[null,"(RODGERS &amp; FITCH, 1947)","(VAN DENBURGH, 1896)","(RODGERS, 1944)","(TAYLOR, 1936)",...,null,null,"BROADLEY &amp; BROADLEY, 1997","(FITZSIMONS, 1930)",null]]</code></pre>
+</div>
+</div>
+</section>
+<section id="data-wrangling-across-languages" class="slide level2">
+<h2>Data wrangling across languages</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># Python code</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>counts_arrow <span class="op">=</span> r.py_taxa_arrow                       <span class="op">\</span></span>
+<span id="cb30-3"><a href="#cb30-3"></a>                .group_by(<span class="st">"family"</span>)                  <span class="op">\</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a>                .aggregate([(<span class="st">"taxon_id"</span>, <span class="st">"count"</span>)])  <span class="op">\</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a>                .sort_by([(<span class="st">"family"</span>, <span class="st">"ascending"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># R code</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="fu">glimpse</span>(py<span class="sc">$</span>counts_arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Table
+93 rows x 2 columns
+$ taxon_id_count &lt;int64&gt; 3, 677, 16, 32, 206, 113, 3, 23, 3, 122, 3, 9, 104…
+$ family        &lt;string&gt; "Acrochordidae", "Agamidae", "Alligatoridae", "Alo…</code></pre>
+</div>
+</div>
+</section>
+<section id="some-benchmarking-code" class="slide level2">
+<h2>Some benchmarking code…</h2>
+<div class="cell" data-hash="index_cache/revealjs/handover-benchmark_855796710f4012134a58fd3ccf8f8979">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>handover_time <span class="ot">&lt;-</span> <span class="cf">function</span>(n, <span class="at">arrow =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb33-2"><a href="#cb33-2"></a>  data_in_r <span class="ot">&lt;-</span> <span class="fu">slice_sample</span>(r_taxa, <span class="at">n =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-3"><a href="#cb33-3"></a>  <span class="cf">if</span>(arrow) data_in_r <span class="ot">&lt;-</span> <span class="fu">arrow_table</span>(data_in_r)</span>
+<span id="cb33-4"><a href="#cb33-4"></a>  <span class="fu">tic</span>()</span>
+<span id="cb33-5"><a href="#cb33-5"></a>  data_in_python <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(data_in_r)</span>
+<span id="cb33-6"><a href="#cb33-6"></a>  t <span class="ot">&lt;-</span> <span class="fu">toc</span>(<span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-7"><a href="#cb33-7"></a>  <span class="fu">return</span>(t<span class="sc">$</span>toc <span class="sc">-</span> t<span class="sc">$</span>tic)</span>
+<span id="cb33-8"><a href="#cb33-8"></a>}</span>
+<span id="cb33-9"><a href="#cb33-9"></a></span>
+<span id="cb33-10"><a href="#cb33-10"></a>times <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb33-11"><a href="#cb33-11"></a>  <span class="at">n =</span> <span class="fu">seq</span>(<span class="dv">100000</span>, <span class="dv">10000000</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb33-12"><a href="#cb33-12"></a>  <span class="at">data_frame =</span> <span class="fu">map_dbl</span>(n, handover_time),</span>
+<span id="cb33-13"><a href="#cb33-13"></a>  <span class="at">arrow_table =</span> <span class="fu">map_dbl</span>(n, handover_time, <span class="at">arrow =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb33-14"><a href="#cb33-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="how-long-does-it-take-to-pass-data" class="slide level2">
+<h2>How long does it take to pass data?</h2>
+
+<img data-src="index_files/figure-revealjs/plot-benchmarks-1.png" width="960" class="r-stretch"></section></section>
 <section id="case-study-3-efficiently-transferring-arrow-data-over-a-network-with-arrow-flight" class="title-slide slide level1 center">
 <h1>Case study 3: <a href="">Efficiently transferring Arrow data over a network with Arrow Flight</a></h1>
 <div class="footer footer-default">
