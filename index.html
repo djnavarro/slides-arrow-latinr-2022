@@ -28,6 +28,70 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -405,7 +469,180 @@
 <section id="arrow-in-the-r-ecosystem-5" class="slide level2">
 <h2>Arrow in the R Ecosystem</h2>
 
-<img data-src="img/dplyr-backends-4.svg" class="r-stretch"><div class="footer footer-default">
+<img data-src="img/dplyr-backends-4.svg" class="r-stretch"></section></section>
+<section>
+<section id="case-study-1-visualizing-a-billion-rows-of-data" class="title-slide slide level1 center">
+<h1>Case study 1: <a href="https://blog.djnavarro.net/visualising-a-billion-rows/">Visualizing a billion rows of data</a></h1>
+
+</section>
+<section id="load-packages" class="slide level2">
+<h2>Load packages</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(arrow)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(tictoc)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="open-the-nyc-taxi-data" class="slide level2">
+<h2>Open the NYC taxi data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>nyc_taxi <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(<span class="st">"~/Datasets/nyc-taxi/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="glimpse-the-nyc-taxi-data" class="slide level2">
+<h2>Glimpse the NYC taxi data</h2>
+<div class="cell" data-hash="index_cache/revealjs/glimpse-nyc_c3bee0ce419d991e312a3d2b358018a0">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">glimpse</span>(nyc_taxi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>FileSystemDataset with 158 Parquet files
+1,672,590,319 rows x 24 columns
+$ vendor_name             &lt;string&gt; "VTS", "VTS", "VTS", "DDS", "DDS", "DDS"…
+$ pickup_datetime  &lt;timestamp[ms]&gt; 2009-01-04 13:52:00, 2009-01-04 14:31:00…
+$ dropoff_datetime &lt;timestamp[ms]&gt; 2009-01-04 14:02:00, 2009-01-04 14:38:00…
+$ passenger_count          &lt;int64&gt; 1, 3, 5, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 2…
+$ trip_distance           &lt;double&gt; 2.63, 4.55, 10.35, 5.00, 0.40, 1.20, 0.4…
+$ pickup_longitude        &lt;double&gt; -73.99196, -73.98210, -74.00259, -73.974…
+$ pickup_latitude         &lt;double&gt; 40.72157, 40.73629, 40.73975, 40.79095, …
+$ rate_code               &lt;string&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ store_and_fwd           &lt;string&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ dropoff_longitude       &lt;double&gt; -73.99380, -73.95585, -73.86998, -73.996…
+$ dropoff_latitude        &lt;double&gt; 40.69592, 40.76803, 40.77023, 40.73185, …
+$ payment_type            &lt;string&gt; "Cash", "Credit card", "Credit card", "C…
+$ fare_amount             &lt;double&gt; 8.9, 12.1, 23.7, 14.9, 3.7, 6.1, 5.7, 6.…
+$ extra                   &lt;double&gt; 0.5, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, …
+$ mta_tax                 &lt;double&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ tip_amount              &lt;double&gt; 0.00, 2.00, 4.74, 3.05, 0.00, 0.00, 1.00…
+$ tolls_amount            &lt;double&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ total_amount            &lt;double&gt; 9.40, 14.60, 28.44, 18.45, 3.70, 6.60, 6…
+$ improvement_surcharge   &lt;double&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ congestion_surcharge    &lt;double&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ pickup_location_id       &lt;int64&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ dropoff_location_id      &lt;int64&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ year                     &lt;int32&gt; 2009, 2009, 2009, 2009, 2009, 2009, 2009…
+$ month                    &lt;int32&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</code></pre>
+</div>
+</div>
+</section>
+<section id="set-some-handy-quantities" class="slide level2">
+<h2>Set some handy quantities</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>pixels <span class="ot">&lt;-</span> <span class="dv">4000</span> <span class="co"># image will be 4000x4000 pixels</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>x0 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">74.05</span>   <span class="co"># minimum longitude to plot</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>y0 <span class="ot">&lt;-</span> <span class="fl">40.6</span>     <span class="co"># minimum latitude to plot</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>span <span class="ot">&lt;-</span> <span class="fl">0.3</span>    <span class="co"># size of the lat/long window to plot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="count-pickups-at-each-image-pixel" class="slide level2">
+<h2>Count pickups at each image pixel</h2>
+<div class="cell" data-hash="index_cache/revealjs/count-pickups_e6a9f09e66e30e1d7e7724f803129e41">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">tic</span>()</span>
+<span id="cb6-2"><a href="#cb6-2"></a>pickup <span class="ot">&lt;-</span> nyc_taxi <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">filter</span>(</span>
+<span id="cb6-4"><a href="#cb6-4"></a>    <span class="sc">!</span><span class="fu">is.na</span>(pickup_longitude) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(pickup_latitude),</span>
+<span id="cb6-5"><a href="#cb6-5"></a>    pickup_longitude <span class="sc">&gt;</span> x0 <span class="sc">&amp;</span> pickup_longitude <span class="sc">&lt;</span> x0 <span class="sc">+</span> span,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    pickup_latitude <span class="sc">&gt;</span> y0 <span class="sc">&amp;</span> pickup_latitude <span class="sc">&lt;</span> y0 <span class="sc">+</span> span</span>
+<span id="cb6-7"><a href="#cb6-7"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-9"><a href="#cb6-9"></a>    <span class="at">unit_scaled_x =</span> (pickup_longitude <span class="sc">-</span> x0) <span class="sc">/</span> span,</span>
+<span id="cb6-10"><a href="#cb6-10"></a>    <span class="at">unit_scaled_y =</span> (pickup_latitude <span class="sc">-</span> y0) <span class="sc">/</span> span,</span>
+<span id="cb6-11"><a href="#cb6-11"></a>    <span class="at">x =</span> <span class="fu">as.integer</span>(<span class="fu">round</span>(pixels <span class="sc">*</span> unit_scaled_x)), </span>
+<span id="cb6-12"><a href="#cb6-12"></a>    <span class="at">y =</span> <span class="fu">as.integer</span>(<span class="fu">round</span>(pixels <span class="sc">*</span> unit_scaled_y))</span>
+<span id="cb6-13"><a href="#cb6-13"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a>  <span class="fu">count</span>(x, y, <span class="at">name =</span> <span class="st">"pickup"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>  <span class="fu">collect</span>()</span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>83.775 sec elapsed</code></pre>
+</div>
+</div>
+</section>
+<section id="glimpse-the-pickup-counts" class="slide level2">
+<h2>Glimpse the pickup counts</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">glimpse</span>(pickup)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 4,677,864
+Columns: 3
+$ x      &lt;int&gt; 911, 816, 1030, 903, 628, 809, 1019, 1234, 1394, 1153, 116…
+$ y      &lt;int&gt; 1881, 1745, 2089, 2343, 1710, 2109, 2189, 2246, 2360, 2110…
+$ pickup &lt;int&gt; 6208, 6267, 4204, 13808, 12928, 10772, 6822, 6050, 385, 10…</code></pre>
+</div>
+</div>
+</section>
+<section id="place-pickup-counts-on-a-grid" class="slide level2">
+<h2>Place pickup counts on a grid</h2>
+<div class="cell" data-hash="index_cache/revealjs/grid-pickup-counts_4bd34e54f37eef594f75e5a9ad3ad1f1">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">tic</span>()</span>
+<span id="cb10-2"><a href="#cb10-2"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>pixels, <span class="at">y =</span> <span class="dv">1</span><span class="sc">:</span>pixels) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">left_join</span>(pickup, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">mutate</span>(<span class="at">pickup =</span> <span class="fu">replace_na</span>(pickup,  <span class="dv">0</span>))</span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10.559 sec elapsed</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">glimpse</span>(grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 16,000,000
+Columns: 3
+$ x      &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ y      &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+$ pickup &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</code></pre>
+</div>
+</div>
+</section>
+<section id="coerce-to-matrix" class="slide level2">
+<h2>Coerce to matrix</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>pickup_grid <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  <span class="at">data =</span> grid<span class="sc">$</span>pickup,</span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="at">nrow =</span> pixels,</span>
+<span id="cb14-4"><a href="#cb14-4"></a>  <span class="at">ncol =</span> pixels</span>
+<span id="cb14-5"><a href="#cb14-5"></a>)</span>
+<span id="cb14-6"><a href="#cb14-6"></a></span>
+<span id="cb14-7"><a href="#cb14-7"></a>pickup_grid[<span class="dv">2000</span><span class="sc">:</span><span class="dv">2009</span>, <span class="dv">2000</span><span class="sc">:</span><span class="dv">2009</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]   11    2    2    4    6    3    7   15   54    96
+ [2,]    5    3    3    1    5   27   47   55   74   100
+ [3,]    5    6    7   38   39   48   60   99   95    75
+ [4,]   16   37   51   45   35   61   64   67   51    18
+ [5,]   67   50   97  141   55   24   26   26   40    29
+ [6,]   65  133   56   18   11   10  659    6    4     9
+ [7,]   35   78   13    3   82  105   68    2    2     4
+ [8,]    7    7    4    3    7   25    4    2    2     3
+ [9,]    8   10    3    3   17    5   98    2    4     3
+[10,]    8    6    8    2   19    6    1    2    3    23</code></pre>
+</div>
+</div>
+</section>
+<section id="visualization-function" class="slide level2">
+<h2>Visualization function</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>render_image <span class="ot">&lt;-</span> <span class="cf">function</span>(mat, cols) {</span>
+<span id="cb16-2"><a href="#cb16-2"></a>  op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb16-3"><a href="#cb16-3"></a>  shades <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(cols)</span>
+<span id="cb16-4"><a href="#cb16-4"></a>  <span class="fu">image</span>(</span>
+<span id="cb16-5"><a href="#cb16-5"></a>    <span class="at">z =</span> <span class="fu">log10</span>(<span class="fu">t</span>(mat <span class="sc">+</span> <span class="dv">1</span>)),</span>
+<span id="cb16-6"><a href="#cb16-6"></a>    <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb16-7"><a href="#cb16-7"></a>    <span class="at">asp =</span> <span class="dv">1</span>,</span>
+<span id="cb16-8"><a href="#cb16-8"></a>    <span class="at">col =</span> <span class="fu">shades</span>(<span class="dv">256</span>),</span>
+<span id="cb16-9"><a href="#cb16-9"></a>    <span class="at">useRaster =</span> <span class="cn">TRUE</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a>  )</span>
+<span id="cb16-11"><a href="#cb16-11"></a>  <span class="fu">par</span>(op)</span>
+<span id="cb16-12"><a href="#cb16-12"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualization" class="slide level2">
+<h2>Visualization</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">render_image</span>(pickup_grid, <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"#002222"</span>, <span class="st">"white"</span>, <span class="st">"#800020"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/data-vis-1.png" width="576" class="r-stretch"><div class="footer footer-default">
 
 </div>
 </section></section>

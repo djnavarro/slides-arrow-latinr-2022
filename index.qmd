@@ -10,7 +10,7 @@ format:
     theme: dark
 ---
 
-```{r}
+```{r settings}
 #| include: false
 
 # can't seem to make this work in the yaml so...
@@ -31,6 +31,9 @@ knitr::knit_hooks$set(output = function(x, options) {
   }
   hook_output(x, options)
 })
+
+# global option to set output print width
+options(width = 75)
 ```
 
 # What is Apache Arrow?
@@ -101,4 +104,119 @@ knitr::knit_hooks$set(output = function(x, options) {
 ## Arrow in the R Ecosystem
 
 ![](img/dplyr-backends-4.svg)
+
+# Case study 1: [Visualizing a billion rows of data](https://blog.djnavarro.net/visualising-a-billion-rows/)
+
+## Load packages
+
+```{r load-packages}
+#| message: false
+library(arrow)
+library(dplyr)
+library(tictoc)
+library(tidyr)
+library(ggplot2)
+```
+
+## Open the NYC taxi data
+
+```{r}
+nyc_taxi <- open_dataset("~/Datasets/nyc-taxi/")
+```
+
+## Glimpse the NYC taxi data
+
+```{r glimpse-nyc}
+#| cache: true
+glimpse(nyc_taxi)
+```
+
+## Set some handy quantities
+
+```{r set-constants}
+pixels <- 4000 # image will be 4000x4000 pixels
+x0 <- -74.05   # minimum longitude to plot
+y0 <- 40.6     # minimum latitude to plot
+span <- 0.3    # size of the lat/long window to plot
+```
+
+## Count pickups at each image pixel
+
+```{r count-pickups}
+#| cache: true
+tic()
+pickup <- nyc_taxi |>
+  filter(
+    !is.na(pickup_longitude) & !is.na(pickup_latitude),
+    pickup_longitude > x0 & pickup_longitude < x0 + span,
+    pickup_latitude > y0 & pickup_latitude < y0 + span
+  ) |>
+  mutate(
+    unit_scaled_x = (pickup_longitude - x0) / span,
+    unit_scaled_y = (pickup_latitude - y0) / span,
+    x = as.integer(round(pixels * unit_scaled_x)), 
+    y = as.integer(round(pixels * unit_scaled_y))
+  ) |>
+  count(x, y, name = "pickup") |>
+  collect()
+toc()
+```
+
+
+## Glimpse the pickup counts
+
+```{r glimpse-pickups}
+glimpse(pickup)
+```
+
+## Place pickup counts on a grid
+
+```{r grid-pickup-counts}
+#| cache: true
+tic()
+grid <- expand_grid(x = 1:pixels, y = 1:pixels) |>
+  left_join(pickup, by = c("x", "y")) |>
+  mutate(pickup = replace_na(pickup,  0))
+toc()
+```
+
+```{r glimpse-grid}
+glimpse(grid)
+```
+
+## Coerce to matrix
+
+```{r pickup-matrix}
+pickup_grid <- matrix(
+  data = grid$pickup,
+  nrow = pixels,
+  ncol = pixels
+)
+
+pickup_grid[2000:2009, 2000:2009]
+```
+
+## Visualization function
+
+```{r render-image}
+render_image <- function(mat, cols) {
+  op <- par(mar = c(0, 0, 0, 0))
+  shades <- colorRampPalette(cols)
+  image(
+    z = log10(t(mat + 1)),
+    axes = FALSE,
+    asp = 1,
+    col = shades(256),
+    useRaster = TRUE
+  )
+  par(op)
+}
+```
+
+## Visualization 
+
+```{r data-vis}
+render_image(pickup_grid, cols = c("#002222", "white", "#800020"))
+```
+
 
