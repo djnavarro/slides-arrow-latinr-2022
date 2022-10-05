@@ -32,3 +32,73 @@ knitr::knit_hooks$set(output = function(x, options) {
   hook_output(x, options)
 })
 ```
+
+# What is Apache Arrow?
+
+> | 
+>
+> A multi-language toolbox <br> For accelerated data interchange <br> And in-memory processing
+
+## Accelerating data interchange
+
+![](img/data-interchange-1.svg)
+
+## Accelerating data interchange
+
+![](img/data-interchange-2.svg)
+
+## Efficient in-memory processing
+
+![](img/simd-1.svg)
+
+## Efficient in-memory processing
+
+![](img/simd-2.svg)
+
+## Efficient in-memory processing
+
+![](img/simd-3.svg)
+
+## Efficient in-memory processing
+
+![](img/simd-4.svg)
+
+# R in the Arrow Ecosystem
+
+## R in the Arrow Ecosystem
+
+![](img/arrow-ecosystem-1.svg)
+
+## R in the Arrow Ecosystem
+
+![](img/arrow-ecosystem-2.svg)
+
+## R in the Arrow Ecosystem
+
+![](img/arrow-ecosystem-3.svg)
+
+# Arrow in the R Ecosystem
+
+## Arrow in the R Ecosystem
+
+- Analyze, process, and write multi-file parquet, csv, S3 buckets, etc
+- Larger-than-memory data sets
+- Analyze Arrow data using dplyr verbs
+- And more...
+
+## Arrow in the R Ecosystem
+
+![](img/dplyr-backends-1.svg)
+
+## Arrow in the R Ecosystem
+
+![](img/dplyr-backends-2.svg)
+
+## Arrow in the R Ecosystem
+
+![](img/dplyr-backends-3.svg)
+
+## Arrow in the R Ecosystem
+
+![](img/dplyr-backends-4.svg)
+
