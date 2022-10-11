@@ -371,3 +371,26 @@ remote_taxi |>
 
 # Case study 4: [Efficiently transferring Arrow data over a network with Arrow Flight]()
 
+## To start the server running... 
+
+```{r start-server}
+#| eval: false
+demo_server <- arrow::load_flight_server("demo_flight_server")
+server <- demo_server$DemoFlightServer(port = 8089)
+server$serve()
+```
+
+## To connect from a client machine...
+
+```{r use-client}
+client <- flight_connect(port = 8089)
+flight_put(client, data = airquality, path = "pollution_data")
+list_flights(client)
+```
+
+
+
+```{r, echo=FALSE, results='hide'}
+client$do_action("shutdown")
+```
+
