@@ -433,13 +433,16 @@ list_flights(client)
 
 # How do I get started?
 
-This talk isn't meant to be a tutorial but I still think it's a kindness to list some resources to help you get started 
+This talk isn't meant to be a tutorial but I still think it's a kindness to list some resources!
 
 
-## The useR! workshop
+## Resources
 
-## Some blog posts!
-
+- [arrow-user2022.netlify.app](https://arrow-user2022.netlify.app/)
+- [github.com/thisisnic/awesome-arrow-r](https://github.com/thisisnic/awesome-arrow-r)
+- [blog.djnavarro.net/#category=Apache%20Arrow](https://blog.djnavarro.net/#category=Apache%20Arrow)
+- [arrow.apache.org/docs/r](https://arrow.apache.org/docs/r/)
+- [arrow.apache.org/cookbook/r](https://arrow.apache.org/cookbook/r/)
 
 
 ```{r, echo=FALSE, results='hide'}
