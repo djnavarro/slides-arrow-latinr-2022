@@ -1,6 +1,7 @@
 ---
 title: "A tour of the Apache Arrow ecosystem for the R community"
 author: "Danielle Navarro"
+subtitle: "[slides.djnavarro.net/arrow-latinr-2022](https://slides.djnavarro.net/arrow-latinr-2022)"
 execute:
   echo: true
   fig-width: 10
