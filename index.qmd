@@ -61,41 +61,41 @@ Bridging languages, hardware, and people
 
 ## Accelerating data interchange
 
-![](img/data-interchange-1.svg)
+![](img/data-interchange-1.png)
 
 ## Accelerating data interchange
 
-![](img/data-interchange-2.svg)
+![](img/data-interchange-2.png)
 
 ## Efficient in-memory processing
 
-![](img/simd-1.svg)
+![](img/simd-1.png)
 
 ## Efficient in-memory processing
 
-![](img/simd-2.svg)
+![](img/simd-2.png)
 
 ## Efficient in-memory processing
 
-![](img/simd-3.svg)
+![](img/simd-3.png)
 
 ## Efficient in-memory processing
 
-![](img/simd-4.svg)
+![](img/simd-4.png)
 
 # R in the Arrow Ecosystem
 
 ## R in the Arrow Ecosystem
 
-![](img/arrow-ecosystem-1.svg)
+![](img/arrow-ecosystem-1.png)
 
 ## R in the Arrow Ecosystem
 
-![](img/arrow-ecosystem-2.svg)
+![](img/arrow-ecosystem-2.png)
 
 ## R in the Arrow Ecosystem
 
-![](img/arrow-ecosystem-3.svg)
+![](img/arrow-ecosystem-3.png)
 
 # Arrow in the R Ecosystem
 
@@ -108,19 +108,19 @@ Bridging languages, hardware, and people
 
 ## Arrow in the R Ecosystem
 
-![](img/dplyr-backends-1.svg)
+![](img/dplyr-backends-1.png)
 
 ## Arrow in the R Ecosystem
 
-![](img/dplyr-backends-2.svg)
+![](img/dplyr-backends-2.png)
 
 ## Arrow in the R Ecosystem
 
-![](img/dplyr-backends-3.svg)
+![](img/dplyr-backends-3.png)
 
 ## Arrow in the R Ecosystem
 
-![](img/dplyr-backends-4.svg)
+![](img/dplyr-backends-4.png)
 
 ## Packages for this talk
 
