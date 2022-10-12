@@ -270,17 +270,21 @@ La Mezquita-Catedral is a convenient metaphor
 
 
 
-## Set up reticulate and python environment
+## Choose your Python environment!
+
+My Python environments:
 
 ```{r python-setup}
 conda_list()
+```
+
+<br>
+An environment with `pandas` and `pyarrow` installed:
+
+```{r use-reptilia}
 use_miniconda("reptilia")
 ```
 
-
-```{r python-env}
-# conda_create("reptilia", packages = c("pandas", "pyarrow"))
-```
 
 ## Load as an R data frame 
 
@@ -333,6 +337,20 @@ glimpse(r_taxa_arrow)
 tic()
 py_taxa_arrow <- r_to_py(r_taxa_arrow)
 toc()
+```
+
+<br>
+
+- Much faster! Takes a fraction of a second
+- Foreshadowing: time is constant in the size of the table
+
+
+## Pass the table to Python
+
+- Check that it worked
+- Notice the formatting is pyarrow-style!
+
+```{r show-pyarrow-table}
 py_taxa_arrow
 ```
 
