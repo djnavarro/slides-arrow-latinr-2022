@@ -440,7 +440,7 @@ This talk isn't meant to be a tutorial but I still think it's a kindness to list
 
 - [arrow-user2022.netlify.app](https://arrow-user2022.netlify.app/)
 - [github.com/thisisnic/awesome-arrow-r](https://github.com/thisisnic/awesome-arrow-r)
-- [blog.djnavarro.net/#category=Apache%20Arrow](https://blog.djnavarro.net/#category=Apache%20Arrow)
+- [blog.djnavarro.net/category/apache-arrow](https://blog.djnavarro.net/category/apache-arrow)
 - [arrow.apache.org/docs/r](https://arrow.apache.org/docs/r/)
 - [arrow.apache.org/cookbook/r](https://arrow.apache.org/cookbook/r/)
 
