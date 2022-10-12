@@ -94,6 +94,7 @@
     code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link rel="stylesheet" href="tweaks.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -392,13 +393,13 @@
   <p class="author">Danielle Navarro</p>
 </section>
 
-<section id="sydney-australia" class="title-slide slide level1 center" data-background-image="img/sydney.jpg" data-background-position="cover">
+<section id="sydney-australia" class="title-slide slide level1 low-heading center" data-background-image="img/sydney.jpg" data-background-position="cover">
 <h1>Sydney, Australia</h1>
-<p>Apparently there is a bridge here or something</p>
+<p>There is a bridge here</p>
 <!-- image credit: me. I took this photo in 2022 -->
 </section>
 
-<section id="voltron-data" class="title-slide slide level1 center" data-background-image="img/voltrondata.png" data-background-position="cover">
+<section id="voltron-data" class="title-slide slide level1 high-heading center" data-background-image="img/voltrondata.png" data-background-position="cover">
 <h1>Voltron Data</h1>
 <!-- image credit:
 copyright Voltron Data, usage for this talk is permissible
@@ -499,7 +500,7 @@ copyright Voltron Data, usage for this talk is permissible
 </section>
 
 <section>
-<section id="new-york-usa" class="title-slide slide level1 center" data-background-image="img/newyork.jpg" data-background-position="cover">
+<section id="new-york-usa" class="title-slide slide level1 high-heading center" data-background-image="img/newyork.jpg" data-background-position="cover">
 <h1>New York, USA</h1>
 <p>Sometimes the data don’t quite fit</p>
 <!-- image credit: me. I took this photo in 2004 -->
@@ -670,7 +671,7 @@ $ pickup &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0�
 <section>
 <section id="córdoba-spain" class="title-slide slide level1 center" data-background-image="img/mezquita.jpg" data-background-position="cover">
 <h1>Córdoba, Spain</h1>
-<p>La Mezquita-Catedral is an awfully convenient metaphor</p>
+<p>La Mezquita-Catedral is a convenient metaphor</p>
 <!-- image source: me! I took this photo in 2004 -->
 </section>
 <section id="set-up-reticulate-and-python-environment" class="slide level2">
@@ -834,13 +835,13 @@ $ family        &lt;string&gt; "Acrochordidae", "Agamidae", "Alligatoridae", "Al
 <h2>How long does it take to pass data?</h2>
 
 <img data-src="index_files/figure-revealjs/plot-benchmarks-1.png" width="960" class="r-stretch"></section></section>
-<section id="case-study-3-connecting-to-an-aws-s3-bucket" class="title-slide slide level1 center">
-<h1>Case study 3: Connecting to an AWS S3 bucket</h1>
+<section id="case-study-3-remote-data-sources" class="title-slide slide level1 center">
+<h1>Case study 3: Remote data sources</h1>
 
 </section>
 
 <section>
-<section id="whyalla-australia" class="title-slide slide level1 center" data-background-image="img/whyalla.jpg" data-background-position="cover">
+<section id="whyalla-australia" class="title-slide slide level1 high-heading center" data-background-image="img/whyalla.jpg" data-background-position="cover">
 <h1>Whyalla, Australia</h1>
 <p>Remote storage is not unfamiliar to country girls</p>
 <!-- image source:
@@ -849,8 +850,8 @@ $ family        &lt;string&gt; "Acrochordidae", "Agamidae", "Alligatoridae", "Al
 - CC-BY-ND-2.0 licence
 -->
 </section>
-<section id="connecting-to-the-bucket" class="slide level2">
-<h2>Connecting to the bucket</h2>
+<section id="connecting-to-an-s3-bucket" class="slide level2">
+<h2>Connecting to an S3 bucket</h2>
 <div class="cell" data-hash="index_cache/revealjs/connect-bucket_8186eff44aa7e0ca81c9b96bd98e76a4">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>bucket <span class="ot">&lt;-</span> <span class="fu">s3_bucket</span>(<span class="st">"voltrondata-labs-datasets"</span>)</span>
 <span id="cb34-2"><a href="#cb34-2"></a>bucket<span class="sc">$</span><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -867,8 +868,8 @@ $ family        &lt;string&gt; "Acrochordidae", "Agamidae", "Alligatoridae", "Al
 </div>
 </div>
 </section>
-<section id="querying-a-remote-dataset" class="slide level2">
-<h2>Querying a remote dataset</h2>
+<section id="querying-data-stored-in-an-s3-bucket" class="slide level2">
+<h2>Querying data stored in an S3 bucket</h2>
 <div class="cell" data-hash="index_cache/revealjs/query-s3-data_8271ac20909b5915bb3ceb19326899fe">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>bucket <span class="ot">&lt;-</span> <span class="fu">s3_bucket</span>(<span class="st">"voltrondata-labs-datasets/nyc-taxi"</span>)</span>
 <span id="cb38-2"><a href="#cb38-2"></a>remote_taxi <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(bucket)</span>
@@ -887,22 +888,21 @@ $ family        &lt;string&gt; "Acrochordidae", "Agamidae", "Alligatoridae", "Al
 1   7667255      2094091       27.3</code></pre>
 </div>
 </div>
-</section></section>
-<section>
-<section id="case-study-4-efficiently-transferring-arrow-data-over-a-network-with-arrow-flight" class="title-slide slide level1 center">
-<h1>Case study 4: <a href="">Efficiently transferring Arrow data over a network with Arrow Flight</a></h1>
-
 </section>
-<section id="to-start-the-server-running" class="slide level2">
-<h2>To start the server running…</h2>
+<section id="arrow-flight" class="slide level2">
+<h2>Arrow Flight</h2>
+<p>Explainer image</p>
+</section>
+<section id="arrow-flight-1" class="slide level2">
+<h2>Arrow Flight</h2>
+<p>To start the server</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>demo_server <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">load_flight_server</span>(<span class="st">"demo_flight_server"</span>)</span>
 <span id="cb40-2"><a href="#cb40-2"></a>server <span class="ot">&lt;-</span> demo_server<span class="sc">$</span><span class="fu">DemoFlightServer</span>(<span class="at">port =</span> <span class="dv">8089</span>)</span>
 <span id="cb40-3"><a href="#cb40-3"></a>server<span class="sc">$</span><span class="fu">serve</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="to-connect-from-a-client-machine" class="slide level2">
-<h2>To connect from a client machine…</h2>
+<p><br></p>
+<p>To connect from a client machine</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>client <span class="ot">&lt;-</span> <span class="fu">flight_connect</span>(<span class="at">port =</span> <span class="dv">8089</span>)</span>
 <span id="cb41-2"><a href="#cb41-2"></a><span class="fu">flight_put</span>(client, <span class="at">data =</span> airquality, <span class="at">path =</span> <span class="st">"pollution_data"</span>)</span>

@@ -1,0 +1,17 @@
+/* this is truly ghastly */
+  .low-heading > h1 {
+    position: absolute;
+    top: 60vh
+  }
+.low-heading > p {
+  position: absolute;
+  top: 75vh
+}
+.high-heading > h1 {
+  position: absolute;
+  top: -40vh
+}
+.high-heading > p {
+  position: absolute;
+  top: -25vh
+}

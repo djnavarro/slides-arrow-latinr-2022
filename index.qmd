@@ -8,7 +8,9 @@ execute:
 format: 
   revealjs:
     theme: dark
+    css: tweaks.css
 ---
+
 
 ```{r settings}
 #| include: false
@@ -36,13 +38,13 @@ knitr::knit_hooks$set(output = function(x, options) {
 options(width = 75)
 ```
 
-# Sydney, Australia {background-image="img/sydney.jpg" background-position="cover"}
+# Sydney, Australia {.low-heading background-image="img/sydney.jpg" background-position="cover"}
 
-Apparently there is a bridge here or something
+There is a bridge here
 
 <!-- image credit: me. I took this photo in 2022 -->
 
-# Voltron Data {background-image="img/voltrondata.png" background-position="cover"}
+# Voltron Data {.high-heading background-image="img/voltrondata.png" background-position="cover"}
 
 <!-- image credit:
 copyright Voltron Data, usage for this talk is permissible
@@ -133,7 +135,7 @@ library(tictoc)
 
 # Case study 1: [Visualizing a billion rows of data in less time than it takes to make a cup of coffee](https://blog.djnavarro.net/visualising-a-billion-rows/)
 
-# New York, USA {background-image="img/newyork.jpg" background-position="cover"}
+# New York, USA {.high-heading background-image="img/newyork.jpg" background-position="cover"}
 
 Sometimes the data don't quite fit
 
@@ -249,7 +251,7 @@ render_image(pickup_grid, cols = c("#002222", "white", "#800020"))
 
 # Córdoba, Spain {background-image="img/mezquita.jpg" background-position="cover"}
 
-La Mezquita-Catedral is an awfully convenient metaphor 
+La Mezquita-Catedral is a convenient metaphor 
 
 <!-- image source: me! I took this photo in 2004 -->
 
@@ -365,9 +367,9 @@ times |>
 ```
 
 
-# Case study 3: Connecting to an AWS S3 bucket 
+# Case study 3: Remote data sources
 
-# Whyalla, Australia {background-image="img/whyalla.jpg" background-position="cover"}
+# Whyalla, Australia {.high-heading background-image="img/whyalla.jpg" background-position="cover"}
 
 Remote storage is not unfamiliar to country girls
 
@@ -377,7 +379,7 @@ Remote storage is not unfamiliar to country girls
 - CC-BY-ND-2.0 licence
 -->
 
-## Connecting to the bucket
+## Connecting to an S3 bucket
 
 ```{r connect-bucket}
 #| cache: true
@@ -386,7 +388,7 @@ bucket$ls()
 bucket$ls("nyc-taxi")
 ```
 
-## Querying a remote dataset
+## Querying data stored in an S3 bucket
 
 ```{r query-s3-data}
 #| cache: true
@@ -402,9 +404,13 @@ remote_taxi |>
   collect()
 ```
 
-# Case study 4: [Efficiently transferring Arrow data over a network with Arrow Flight]()
+## Arrow Flight
 
-## To start the server running... 
+Explainer image
+
+## Arrow Flight
+
+To start the server
 
 ```{r start-server}
 #| eval: false
@@ -413,7 +419,9 @@ server <- demo_server$DemoFlightServer(port = 8089)
 server$serve()
 ```
 
-## To connect from a client machine...
+<br>
+
+To connect from a client machine
 
 ```{r use-client}
 client <- flight_connect(port = 8089)
