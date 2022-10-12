@@ -124,6 +124,11 @@ Bridging languages, hardware, and people
 
 ## Packages for this talk
 
+- Loading `tidyverse` mostly for `dplyr`
+- Loading `reticulate` so we can call Python from R
+- Loading `tictoc` to report timing
+- Loading `arrow` for... well, Arrow!
+
 ```{r load-packages}
 #| message: false
 library(tidyverse)
@@ -143,6 +148,11 @@ Sometimes the data don't quite fit
 
 
 ## Open the NYC taxi data
+
+- NYC taxi data is a table with about 1.7B rows
+- Information on taxi trips in NYC from 2009 to 2022
+- Far too big to fit in memory!
+- Connect using `open_dataset()`
 
 ```{r}
 nyc_taxi <- open_dataset("~/Datasets/nyc-taxi/")
@@ -203,6 +213,8 @@ grid <- expand_grid(x = 1:pixels, y = 1:pixels) |>
   mutate(pickup = replace_na(pickup,  0))
 toc()
 ```
+
+<br>
 
 ```{r glimpse-grid}
 glimpse(grid)
@@ -270,19 +282,38 @@ use_miniconda("reptilia")
 # conda_create("reptilia", packages = c("pandas", "pyarrow"))
 ```
 
-## Load data as a native R data frame 
+## Load as an R data frame 
+
+- Data from [The Reptile Database](http://www.reptile-database.org/)
+- Stored locally as a CSV file:
 
 ```{r read-taxa-dataframe}
 r_taxa <- read_csv2("taxa.csv")
 glimpse(r_taxa)
 ```
 
-## Copy to Python pandas
+## Copy to Python panda
 
 ```{r copy-pandas}
+tic()
 py_taxa <- r_to_py(r_taxa)
+toc()
+```
+
+<br>
+
+- Takes about a second
+- Not bad, but not ideal either
+
+## Copy to Python panda
+
+- Check that it worked
+- Notice the formatting is panda-style!
+
+```{r show-pandas}
 py_taxa
 ```
+
 
 ## Load as an Arrow table in R
 
@@ -295,31 +326,41 @@ r_taxa_arrow <- read_delim_arrow(
 glimpse(r_taxa_arrow)
 ```
 
-## Pass an Arrow table from R to Python
+
+## Pass the table to Python
 
 ```{r transfer-to-python}
+tic()
 py_taxa_arrow <- r_to_py(r_taxa_arrow)
+toc()
 py_taxa_arrow
 ```
 
 
 ## Data wrangling across languages
 
+Compute from Python:
+
 ```{python polyglot-data-wrangle-1}
-# Python code
-counts_arrow = r.py_taxa_arrow                       \
+counts_arrow = r.py_taxa_arrow       \
 .group_by("family")                  \
 .aggregate([("taxon_id", "count")])  \
 .sort_by([("family", "ascending")])
 ```
 
+<br>
+
+Inspect from R:
+
 ```{r polyglot-data-wrangle-2}
-# R code
 glimpse(py$counts_arrow)
 ```
 
 
-## Some benchmarking code...
+## Setting up a simple benchmark test...
+
+- Create synthetic "taxa" data with 100K to 10M rows
+- Transfer from R to Python natively and as Arrow Tables
 
 ```{r handover-benchmark}
 #| cache: true
@@ -339,7 +380,7 @@ times <- tibble(
 )
 ```
 
-## How long does it take to pass data?
+## ... and how long does the data handover take?
 
 ```{r plot-benchmarks}
 #| echo: false
@@ -379,22 +420,46 @@ Remote storage is not unfamiliar to country girls
 - CC-BY-ND-2.0 licence
 -->
 
+## Amazon simple storage service (S3)
+
+- Remote file storage service
+- Fast, scalable, cheap
+- Very handy if all you need is storage
+- Analogous services via Google Cloud, Microsoft Azure
+
 ## Connecting to an S3 bucket
 
 ```{r connect-bucket}
 #| cache: true
 bucket <- s3_bucket("voltrondata-labs-datasets")
 bucket$ls()
+```
+
+<br>
+
+```{r ls-nyc-taxi}
+#| cache: true
 bucket$ls("nyc-taxi")
 ```
 
-## Querying data stored in an S3 bucket
+
+## Open a dataset stored in an S3 bucket
+
+```{r open-s3-data}
+#| cache: true
+tic()
+bucket <- s3_bucket("voltrondata-labs-datasets/nyc-taxi")
+remote_taxi <- open_dataset(bucket) 
+toc()
+```
+
+
+## Querying the remote dataset
 
 ```{r query-s3-data}
 #| cache: true
-bucket <- s3_bucket("voltrondata-labs-datasets/nyc-taxi")
-remote_taxi <- open_dataset(bucket)
-remote_taxi |> 
+tic()
+result <- remote_taxi |> 
   filter(year == 2019, month == 1) |>
   summarize(
     all_trips = n(),
@@ -402,15 +467,32 @@ remote_taxi |>
   ) |>
   mutate(pct_shared = shared_trips / all_trips * 100) |>
   collect()
+toc()
 ```
 
-## Arrow Flight
+<br>
 
-Explainer image
+```{r inspect-result}
+#| cache: true
+result
+```
 
-## Arrow Flight
 
-To start the server
+## But what if I need a remote server?
+
+- Sometimes a remote filesystem like S3 isn't enough
+- Sometimes you need the remote system to do computations
+- If so, you may want an Arrow Flight server...
+
+## What is Arrow Flight?
+
+- Flight is a remote procedure call (RPC) protocol
+- Flight is used to stream Arrow data over a network
+- Fully supported by the Arrow C++ and Python libraries
+- R support is a wrapper around the Python flight library 
+- Related: Flight SQL and ADBC (not in this talk!)
+
+## Starting the Flight server
 
 ```{r start-server}
 #| eval: false
@@ -419,22 +501,52 @@ server <- demo_server$DemoFlightServer(port = 8089)
 server$serve()
 ```
 
+
+## Uploading data from a client machine
+
+Connect to server:
+
+```{r flight-connect}
+client <- flight_connect(port = 8089)
+```
+
 <br>
 
-To connect from a client machine
+Upload data:
 
-```{r use-client}
-client <- flight_connect(port = 8089)
+```{r upload-from-client}
 flight_put(client, data = airquality, path = "pollution_data")
+```
+
+<br>
+
+Check that it worked:
+
+```{r list-flights}
 list_flights(client)
 ```
 
 
 
-# How do I get started?
+## What happens when `flight_put()` is called?
 
-This talk isn't meant to be a tutorial but I still think it's a kindness to list some resources!
+![](img/do_put.png)
 
+## Downloading data to a client machine
+
+```{r download-to-client}
+flight_get(client, "pollution_data") |>
+  glimpse()
+```
+
+
+## What happens when `flight_get()` is called?
+
+![](img/do_get.png)
+
+
+
+# Where do I go next?
 
 ## Resources
 

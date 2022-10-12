@@ -487,6 +487,12 @@ copyright Voltron Data, usage for this talk is permissible
 <img data-src="img/dplyr-backends-4.svg" class="r-stretch"></section>
 <section id="packages-for-this-talk" class="slide level2">
 <h2>Packages for this talk</h2>
+<ul>
+<li>Loading <code>tidyverse</code> mostly for <code>dplyr</code></li>
+<li>Loading <code>reticulate</code> so we can call Python from R</li>
+<li>Loading <code>tictoc</code> to report timing</li>
+<li>Loading <code>arrow</code> for… well, Arrow!</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(reticulate)</span>
@@ -507,6 +513,12 @@ copyright Voltron Data, usage for this talk is permissible
 </section>
 <section id="open-the-nyc-taxi-data" class="slide level2">
 <h2>Open the NYC taxi data</h2>
+<ul>
+<li>NYC taxi data is a table with about 1.7B rows</li>
+<li>Information on taxi trips in NYC from 2009 to 2022</li>
+<li>Far too big to fit in memory!</li>
+<li>Connect using <code>open_dataset()</code></li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>nyc_taxi <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(<span class="st">"~/Datasets/nyc-taxi/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -603,6 +615,7 @@ $ pickup &lt;int&gt; 918, 2256, 1, 6649, 20319, 1892, 304, 7489, 3308, 15392, 1�
 <pre><code>10.3 sec elapsed</code></pre>
 </div>
 </div>
+<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">glimpse</span>(grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -692,8 +705,12 @@ $ pickup &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0�
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># conda_create("reptilia", packages = c("pandas", "pyarrow"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="load-data-as-a-native-r-data-frame" class="slide level2">
-<h2>Load data as a native R data frame</h2>
+<section id="load-as-an-r-data-frame" class="slide level2">
+<h2>Load as an R data frame</h2>
+<ul>
+<li>Data from <a href="http://www.reptile-database.org/">The Reptile Database</a></li>
+<li>Stored locally as a CSV file:</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>r_taxa <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">"taxa.csv"</span>)</span>
 <span id="cb22-2"><a href="#cb22-2"></a><span class="fu">glimpse</span>(r_taxa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -713,11 +730,30 @@ $ infraspecific_authority &lt;chr&gt; NA, "ELPATJEVSKY, 1901", "NIKOLSKY, 1902"�
 </div>
 </div>
 </section>
-<section id="copy-to-python-pandas" class="slide level2">
-<h2>Copy to Python pandas</h2>
+<section id="copy-to-python-panda" class="slide level2">
+<h2>Copy to Python panda</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>py_taxa <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(r_taxa)</span>
-<span id="cb24-2"><a href="#cb24-2"></a>py_taxa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">tic</span>()</span>
+<span id="cb24-2"><a href="#cb24-2"></a>py_taxa <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(r_taxa)</span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1.138 sec elapsed</code></pre>
+</div>
+</div>
+<p><br></p>
+<ul>
+<li>Takes about a second</li>
+<li>Not bad, but not ideal either</li>
+</ul>
+</section>
+<section id="copy-to-python-panda-1" class="slide level2">
+<h2>Copy to Python panda</h2>
+<ul>
+<li>Check that it worked</li>
+<li>Notice the formatting is panda-style!</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>py_taxa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                            taxon_id  ...    infraspecific_authority
 0                 Ablepharus_alaicus  ...                         NA
@@ -739,12 +775,12 @@ $ infraspecific_authority &lt;chr&gt; NA, "ELPATJEVSKY, 1901", "NIKOLSKY, 1902"�
 <section id="load-as-an-arrow-table-in-r" class="slide level2">
 <h2>Load as an Arrow table in R</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>r_taxa_arrow <span class="ot">&lt;-</span> <span class="fu">read_delim_arrow</span>(</span>
-<span id="cb26-2"><a href="#cb26-2"></a>  <span class="at">file =</span> <span class="st">"taxa.csv"</span>, </span>
-<span id="cb26-3"><a href="#cb26-3"></a>  <span class="at">delim =</span> <span class="st">";"</span>, </span>
-<span id="cb26-4"><a href="#cb26-4"></a>  <span class="at">as_data_frame =</span> <span class="cn">FALSE</span></span>
-<span id="cb26-5"><a href="#cb26-5"></a>)</span>
-<span id="cb26-6"><a href="#cb26-6"></a><span class="fu">glimpse</span>(r_taxa_arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>r_taxa_arrow <span class="ot">&lt;-</span> <span class="fu">read_delim_arrow</span>(</span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="at">file =</span> <span class="st">"taxa.csv"</span>, </span>
+<span id="cb28-3"><a href="#cb28-3"></a>  <span class="at">delim =</span> <span class="st">";"</span>, </span>
+<span id="cb28-4"><a href="#cb28-4"></a>  <span class="at">as_data_frame =</span> <span class="cn">FALSE</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a>)</span>
+<span id="cb28-6"><a href="#cb28-6"></a><span class="fu">glimpse</span>(r_taxa_arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Table
 14,930 rows x 10 columns
@@ -761,11 +797,16 @@ $ infraspecific_authority &lt;string&gt; NA, "ELPATJEVSKY, 1901", "NIKOLSKY, 190
 </div>
 </div>
 </section>
-<section id="pass-an-arrow-table-from-r-to-python" class="slide level2">
-<h2>Pass an Arrow table from R to Python</h2>
+<section id="pass-the-table-to-python" class="slide level2">
+<h2>Pass the table to Python</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>py_taxa_arrow <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(r_taxa_arrow)</span>
-<span id="cb28-2"><a href="#cb28-2"></a>py_taxa_arrow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">tic</span>()</span>
+<span id="cb30-2"><a href="#cb30-2"></a>py_taxa_arrow <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(r_taxa_arrow)</span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.004 sec elapsed</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>py_taxa_arrow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>pyarrow.Table
 taxon_id: string
@@ -794,16 +835,17 @@ infraspecific_authority: [[null,"ELPATJEVSKY, 1901","NIKOLSKY, 1902","(EREMCHENK
 </section>
 <section id="data-wrangling-across-languages" class="slide level2">
 <h2>Data wrangling across languages</h2>
+<p>Compute from Python:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># Python code</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>counts_arrow <span class="op">=</span> r.py_taxa_arrow                       <span class="op">\</span></span>
-<span id="cb30-3"><a href="#cb30-3"></a>.group_by(<span class="st">"family"</span>)                  <span class="op">\</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a>.aggregate([(<span class="st">"taxon_id"</span>, <span class="st">"count"</span>)])  <span class="op">\</span></span>
-<span id="cb30-5"><a href="#cb30-5"></a>.sort_by([(<span class="st">"family"</span>, <span class="st">"ascending"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>counts_arrow <span class="op">=</span> r.py_taxa_arrow       <span class="op">\</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>.group_by(<span class="st">"family"</span>)                  <span class="op">\</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a>.aggregate([(<span class="st">"taxon_id"</span>, <span class="st">"count"</span>)])  <span class="op">\</span></span>
+<span id="cb34-4"><a href="#cb34-4"></a>.sort_by([(<span class="st">"family"</span>, <span class="st">"ascending"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><br></p>
+<p>Inspect from R:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># R code</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="fu">glimpse</span>(py<span class="sc">$</span>counts_arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">glimpse</span>(py<span class="sc">$</span>counts_arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Table
 93 rows x 2 columns
@@ -812,27 +854,31 @@ $ family        &lt;string&gt; "Acrochordidae", "Agamidae", "Alligatoridae", "Al
 </div>
 </div>
 </section>
-<section id="some-benchmarking-code" class="slide level2">
-<h2>Some benchmarking code…</h2>
+<section id="setting-up-a-simple-benchmark-test" class="slide level2">
+<h2>Setting up a simple benchmark test…</h2>
+<ul>
+<li>Create synthetic “taxa” data with 100K to 10M rows</li>
+<li>Transfer from R to Python natively and as Arrow Tables</li>
+</ul>
 <div class="cell" data-hash="index_cache/revealjs/handover-benchmark_855796710f4012134a58fd3ccf8f8979">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>handover_time <span class="ot">&lt;-</span> <span class="cf">function</span>(n, <span class="at">arrow =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb33-2"><a href="#cb33-2"></a>  data_in_r <span class="ot">&lt;-</span> <span class="fu">slice_sample</span>(r_taxa, <span class="at">n =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb33-3"><a href="#cb33-3"></a>  <span class="cf">if</span>(arrow) data_in_r <span class="ot">&lt;-</span> <span class="fu">arrow_table</span>(data_in_r)</span>
-<span id="cb33-4"><a href="#cb33-4"></a>  <span class="fu">tic</span>()</span>
-<span id="cb33-5"><a href="#cb33-5"></a>  data_in_python <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(data_in_r)</span>
-<span id="cb33-6"><a href="#cb33-6"></a>  t <span class="ot">&lt;-</span> <span class="fu">toc</span>(<span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb33-7"><a href="#cb33-7"></a>  <span class="fu">return</span>(t<span class="sc">$</span>toc <span class="sc">-</span> t<span class="sc">$</span>tic)</span>
-<span id="cb33-8"><a href="#cb33-8"></a>}</span>
-<span id="cb33-9"><a href="#cb33-9"></a></span>
-<span id="cb33-10"><a href="#cb33-10"></a>times <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb33-11"><a href="#cb33-11"></a>  <span class="at">n =</span> <span class="fu">seq</span>(<span class="dv">100000</span>, <span class="dv">10000000</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
-<span id="cb33-12"><a href="#cb33-12"></a>  <span class="at">data_frame =</span> <span class="fu">map_dbl</span>(n, handover_time),</span>
-<span id="cb33-13"><a href="#cb33-13"></a>  <span class="at">arrow_table =</span> <span class="fu">map_dbl</span>(n, handover_time, <span class="at">arrow =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb33-14"><a href="#cb33-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>handover_time <span class="ot">&lt;-</span> <span class="cf">function</span>(n, <span class="at">arrow =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb37-2"><a href="#cb37-2"></a>  data_in_r <span class="ot">&lt;-</span> <span class="fu">slice_sample</span>(r_taxa, <span class="at">n =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-3"><a href="#cb37-3"></a>  <span class="cf">if</span>(arrow) data_in_r <span class="ot">&lt;-</span> <span class="fu">arrow_table</span>(data_in_r)</span>
+<span id="cb37-4"><a href="#cb37-4"></a>  <span class="fu">tic</span>()</span>
+<span id="cb37-5"><a href="#cb37-5"></a>  data_in_python <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(data_in_r)</span>
+<span id="cb37-6"><a href="#cb37-6"></a>  t <span class="ot">&lt;-</span> <span class="fu">toc</span>(<span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-7"><a href="#cb37-7"></a>  <span class="fu">return</span>(t<span class="sc">$</span>toc <span class="sc">-</span> t<span class="sc">$</span>tic)</span>
+<span id="cb37-8"><a href="#cb37-8"></a>}</span>
+<span id="cb37-9"><a href="#cb37-9"></a></span>
+<span id="cb37-10"><a href="#cb37-10"></a>times <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb37-11"><a href="#cb37-11"></a>  <span class="at">n =</span> <span class="fu">seq</span>(<span class="dv">100000</span>, <span class="dv">10000000</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb37-12"><a href="#cb37-12"></a>  <span class="at">data_frame =</span> <span class="fu">map_dbl</span>(n, handover_time),</span>
+<span id="cb37-13"><a href="#cb37-13"></a>  <span class="at">arrow_table =</span> <span class="fu">map_dbl</span>(n, handover_time, <span class="at">arrow =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb37-14"><a href="#cb37-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="how-long-does-it-take-to-pass-data" class="slide level2">
-<h2>How long does it take to pass data?</h2>
+<section id="and-how-long-does-the-data-handover-take" class="slide level2">
+<h2>… and how long does the data handover take?</h2>
 
 <img data-src="index_files/figure-revealjs/plot-benchmarks-1.png" width="960" class="r-stretch"></section></section>
 <section id="case-study-3-remote-data-sources" class="title-slide slide level1 center">
@@ -850,15 +896,27 @@ $ family        &lt;string&gt; "Acrochordidae", "Agamidae", "Alligatoridae", "Al
 - CC-BY-ND-2.0 licence
 -->
 </section>
+<section id="amazon-simple-storage-service-s3" class="slide level2">
+<h2>Amazon simple storage service (S3)</h2>
+<ul>
+<li>Remote file storage service</li>
+<li>Fast, scalable, cheap</li>
+<li>Very handy if all you need is storage</li>
+<li>Analogous services via Google Cloud, Microsoft Azure</li>
+</ul>
+</section>
 <section id="connecting-to-an-s3-bucket" class="slide level2">
 <h2>Connecting to an S3 bucket</h2>
-<div class="cell" data-hash="index_cache/revealjs/connect-bucket_8186eff44aa7e0ca81c9b96bd98e76a4">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>bucket <span class="ot">&lt;-</span> <span class="fu">s3_bucket</span>(<span class="st">"voltrondata-labs-datasets"</span>)</span>
-<span id="cb34-2"><a href="#cb34-2"></a>bucket<span class="sc">$</span><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/revealjs/connect-bucket_2bd26ea5ee4c79d64aebb501fcce0187">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>bucket <span class="ot">&lt;-</span> <span class="fu">s3_bucket</span>(<span class="st">"voltrondata-labs-datasets"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2"></a>bucket<span class="sc">$</span><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "arrow-project" "csv_reports"   "nyc-taxi"     </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>bucket<span class="sc">$</span><span class="fu">ls</span>(<span class="st">"nyc-taxi"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="cell" data-hash="index_cache/revealjs/ls-nyc-taxi_33e09c68c592ebea7621f5c1c812347b">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>bucket<span class="sc">$</span><span class="fu">ls</span>(<span class="st">"nyc-taxi"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "nyc-taxi/year=2009" "nyc-taxi/year=2010" "nyc-taxi/year=2011"
  [4] "nyc-taxi/year=2012" "nyc-taxi/year=2013" "nyc-taxi/year=2014"
@@ -868,19 +926,38 @@ $ family        &lt;string&gt; "Acrochordidae", "Agamidae", "Alligatoridae", "Al
 </div>
 </div>
 </section>
-<section id="querying-data-stored-in-an-s3-bucket" class="slide level2">
-<h2>Querying data stored in an S3 bucket</h2>
-<div class="cell" data-hash="index_cache/revealjs/query-s3-data_8271ac20909b5915bb3ceb19326899fe">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>bucket <span class="ot">&lt;-</span> <span class="fu">s3_bucket</span>(<span class="st">"voltrondata-labs-datasets/nyc-taxi"</span>)</span>
-<span id="cb38-2"><a href="#cb38-2"></a>remote_taxi <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(bucket)</span>
-<span id="cb38-3"><a href="#cb38-3"></a>remote_taxi <span class="sc">|&gt;</span> </span>
-<span id="cb38-4"><a href="#cb38-4"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2019</span>, month <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb38-5"><a href="#cb38-5"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb38-6"><a href="#cb38-6"></a>    <span class="at">all_trips =</span> <span class="fu">n</span>(),</span>
-<span id="cb38-7"><a href="#cb38-7"></a>    <span class="at">shared_trips =</span> <span class="fu">sum</span>(passenger_count <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb38-8"><a href="#cb38-8"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb38-9"><a href="#cb38-9"></a>  <span class="fu">mutate</span>(<span class="at">pct_shared =</span> shared_trips <span class="sc">/</span> all_trips <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb38-10"><a href="#cb38-10"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="open-a-dataset-stored-in-an-s3-bucket" class="slide level2">
+<h2>Open a dataset stored in an S3 bucket</h2>
+<div class="cell" data-hash="index_cache/revealjs/open-s3-data_e154aa41d4968329b321b019041c8bdc">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="fu">tic</span>()</span>
+<span id="cb42-2"><a href="#cb42-2"></a>bucket <span class="ot">&lt;-</span> <span class="fu">s3_bucket</span>(<span class="st">"voltrondata-labs-datasets/nyc-taxi"</span>)</span>
+<span id="cb42-3"><a href="#cb42-3"></a>remote_taxi <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(bucket) </span>
+<span id="cb42-4"><a href="#cb42-4"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>18.614 sec elapsed</code></pre>
+</div>
+</div>
+</section>
+<section id="querying-the-remote-dataset" class="slide level2">
+<h2>Querying the remote dataset</h2>
+<div class="cell" data-hash="index_cache/revealjs/query-s3-data_d325c8f6567fc91356e1824762d4512d">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">tic</span>()</span>
+<span id="cb44-2"><a href="#cb44-2"></a>result <span class="ot">&lt;-</span> remote_taxi <span class="sc">|&gt;</span> </span>
+<span id="cb44-3"><a href="#cb44-3"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2019</span>, month <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-4"><a href="#cb44-4"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb44-5"><a href="#cb44-5"></a>    <span class="at">all_trips =</span> <span class="fu">n</span>(),</span>
+<span id="cb44-6"><a href="#cb44-6"></a>    <span class="at">shared_trips =</span> <span class="fu">sum</span>(passenger_count <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb44-7"><a href="#cb44-7"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb44-8"><a href="#cb44-8"></a>  <span class="fu">mutate</span>(<span class="at">pct_shared =</span> shared_trips <span class="sc">/</span> all_trips <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-9"><a href="#cb44-9"></a>  <span class="fu">collect</span>()</span>
+<span id="cb44-10"><a href="#cb44-10"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>30.834 sec elapsed</code></pre>
+</div>
+</div>
+<p><br></p>
+<div class="cell" data-hash="index_cache/revealjs/inspect-result_f64b6d7ec5fb2ed734251666f896e64d">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   all_trips shared_trips pct_shared
@@ -889,33 +966,82 @@ $ family        &lt;string&gt; "Acrochordidae", "Agamidae", "Alligatoridae", "Al
 </div>
 </div>
 </section>
-<section id="arrow-flight" class="slide level2">
-<h2>Arrow Flight</h2>
-<p>Explainer image</p>
+<section id="but-what-if-i-need-a-remote-server" class="slide level2">
+<h2>But what if I need a remote server?</h2>
+<ul>
+<li>Sometimes a remote filesystem like S3 isn’t enough</li>
+<li>Sometimes you need the remote system to do computations</li>
+<li>If so, you may want an Arrow Flight server…</li>
+</ul>
 </section>
-<section id="arrow-flight-1" class="slide level2">
-<h2>Arrow Flight</h2>
-<p>To start the server</p>
+<section id="what-is-arrow-flight" class="slide level2">
+<h2>What is Arrow Flight?</h2>
+<ul>
+<li>Flight is a remote procedure call (RPC) protocol</li>
+<li>Flight is used to stream Arrow data over a network</li>
+<li>Fully supported by the Arrow C++ and Python libraries</li>
+<li>R support is a wrapper around the Python flight library</li>
+<li>Related: Flight SQL and ADBC (not in this talk!)</li>
+</ul>
+</section>
+<section id="starting-the-flight-server" class="slide level2">
+<h2>Starting the Flight server</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>demo_server <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">load_flight_server</span>(<span class="st">"demo_flight_server"</span>)</span>
-<span id="cb40-2"><a href="#cb40-2"></a>server <span class="ot">&lt;-</span> demo_server<span class="sc">$</span><span class="fu">DemoFlightServer</span>(<span class="at">port =</span> <span class="dv">8089</span>)</span>
-<span id="cb40-3"><a href="#cb40-3"></a>server<span class="sc">$</span><span class="fu">serve</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>demo_server <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">load_flight_server</span>(<span class="st">"demo_flight_server"</span>)</span>
+<span id="cb48-2"><a href="#cb48-2"></a>server <span class="ot">&lt;-</span> demo_server<span class="sc">$</span><span class="fu">DemoFlightServer</span>(<span class="at">port =</span> <span class="dv">8089</span>)</span>
+<span id="cb48-3"><a href="#cb48-3"></a>server<span class="sc">$</span><span class="fu">serve</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="uploading-data-from-a-client-machine" class="slide level2">
+<h2>Uploading data from a client machine</h2>
+<p>Connect to server:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>client <span class="ot">&lt;-</span> <span class="fu">flight_connect</span>(<span class="at">port =</span> <span class="dv">8089</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
-<p>To connect from a client machine</p>
+<p>Upload data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>client <span class="ot">&lt;-</span> <span class="fu">flight_connect</span>(<span class="at">port =</span> <span class="dv">8089</span>)</span>
-<span id="cb41-2"><a href="#cb41-2"></a><span class="fu">flight_put</span>(client, <span class="at">data =</span> airquality, <span class="at">path =</span> <span class="st">"pollution_data"</span>)</span>
-<span id="cb41-3"><a href="#cb41-3"></a><span class="fu">list_flights</span>(client)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a><span class="fu">flight_put</span>(client, <span class="at">data =</span> airquality, <span class="at">path =</span> <span class="st">"pollution_data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Check that it worked:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="fu">list_flights</span>(client)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "pollution_data"</code></pre>
 </div>
 </div>
-</section></section>
+</section>
+<section id="what-happens-when-flight_put-is-called" class="slide level2">
+<h2>What happens when <code>flight_put()</code> is called?</h2>
+
+<img data-src="img/do_put.png" class="r-stretch"></section>
+<section id="downloading-data-to-a-client-machine" class="slide level2">
+<h2>Downloading data to a client machine</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="fu">flight_get</span>(client, <span class="st">"pollution_data"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Table
+153 rows x 6 columns
+$ Ozone   &lt;int32&gt; 41, 36, 12, 18, NA, 28, 23, 19, 8, NA, 7, 16, 11, 14, 18,…
+$ Solar.R &lt;int32&gt; 190, 118, 149, 313, NA, NA, 299, 99, 19, 194, NA, 256, 29…
+$ Wind   &lt;double&gt; 7.4, 8.0, 12.6, 11.5, 14.3, 14.9, 8.6, 13.8, 20.1, 8.6, 6…
+$ Temp    &lt;int32&gt; 67, 72, 74, 62, 56, 66, 65, 59, 61, 69, 74, 69, 66, 68, 5…
+$ Month   &lt;int32&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, …
+$ Day     &lt;int32&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+Call `print()` for full schema details</code></pre>
+</div>
+</div>
+</section>
+<section id="what-happens-when-flight_get-is-called" class="slide level2">
+<h2>What happens when <code>flight_get()</code> is called?</h2>
+
+<img data-src="img/do_get.png" class="r-stretch"></section></section>
 <section>
-<section id="how-do-i-get-started" class="title-slide slide level1 center">
-<h1>How do I get started?</h1>
-<p>This talk isn’t meant to be a tutorial but I still think it’s a kindness to list some resources!</p>
+<section id="where-do-i-go-next" class="title-slide slide level1 center">
+<h1>Where do I go next?</h1>
+
 </section>
 <section id="resources" class="slide level2">
 <h2>Resources</h2>
