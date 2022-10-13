@@ -8,6 +8,8 @@ execute:
   fig-height: 6
 format: 
   revealjs:
+    include-in-header:
+      meta.html
     theme: dark
     css: tweaks.css
 ---
@@ -37,6 +39,26 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 # global option to set output print width
 options(width = 75)
+```
+
+```{r meta}
+#| include: false
+library(metathis)
+meta() %>%
+  meta_name("github-repo" = "https://github.com/djnavarro/slides-arrow-latinr-2022") %>% 
+  meta_social(
+    title = "A tour of the Apache Arrow ecosystem for the R community",
+    url = "https://slides.djnavarro.net/arrow-latinr-2022",
+    image = "https://djnavarro.net/slides-arrow-latinr-2022/img/twitter-preview.png",
+    image_alt = "Image of title slide, showing the title 'A tour of the Apache Arrow ecosystem for the R community', the author 'Danielle Navarro', and the slides url: 'slides.djnavarro.net/arrow-latinr-2022'",
+    og_type = "slides",
+    og_author = "Danielle Navarro",
+    twitter_card_type = "summary_large_image",
+    twitter_creator = "@djnavarro",
+    twitter_site = "@djnavarro"
+  ) %>% 
+  format() %>% 
+  writeLines("meta.html")
 ```
 
 # Sydney, Australia {.low-heading background-image="img/sydney.jpg" background-position="cover"}

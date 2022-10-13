@@ -383,6 +383,21 @@
       margin-right: 0; 
     }
   </style>
+  <meta name="github-repo" content="https://github.com/djnavarro/slides-arrow-latinr-2022">
+  <meta name="twitter:title" content="A tour of the Apache Arrow ecosystem for the R community">
+  <meta name="twitter:url" content="https://slides.djnavarro.net/arrow-latinr-2022">
+  <meta name="twitter:image" content="https://djnavarro.net/slides-arrow-latinr-2022/img/twitter-preview.png">
+  <meta name="twitter:image:alt" content="Image of title slide, showing the title 'A tour of the Apache Arrow ecosystem for the R community', the author 'Danielle Navarro', and the slides url: 'slides.djnavarro.net/arrow-latinr-2022'">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@djnavarro">
+  <meta name="twitter:site" content="@djnavarro">
+  <meta property="og:title" content="A tour of the Apache Arrow ecosystem for the R community">
+  <meta property="og:url" content="https://slides.djnavarro.net/arrow-latinr-2022">
+  <meta property="og:image" content="https://djnavarro.net/slides-arrow-latinr-2022/img/twitter-preview.png">
+  <meta property="og:image:alt" content="Image of title slide, showing the title 'A tour of the Apache Arrow ecosystem for the R community', the author 'Danielle Navarro', and the slides url: 'slides.djnavarro.net/arrow-latinr-2022'">
+  <meta property="og:type" content="slides">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:author" content="Danielle Navarro">
 </head>
 <body class="quarto-dark">
   <div class="reveal">
@@ -529,7 +544,7 @@ $ subset &lt;int&gt; 4, 8, 6, 3, 6, 5, 3, 7, 4, 6, 9, 5, 3, 1, 7, 5, 2, 9, 2, 2â
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>11.286 sec elapsed</code></pre>
+<pre><code>11.391 sec elapsed</code></pre>
 </div>
 </div>
 </section>
@@ -550,7 +565,7 @@ $ subset  &lt;int64&gt; 4, 8, 6, 3, 6, 5, 3, 7, 4, 6, 9, 5, 3, 1, 7, 5, 2, 9, 2,
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>7.273 sec elapsed</code></pre>
+<pre><code>7.886 sec elapsed</code></pre>
 </div>
 </div>
 </section>
@@ -571,7 +586,7 @@ $ subset &lt;int&gt; 4, 8, 6, 3, 6, 5, 3, 7, 4, 6, 9, 5, 3, 1, 7, 5, 2, 9, 2, 2â
 </div>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2.285 sec elapsed</code></pre>
+<pre><code>2.297 sec elapsed</code></pre>
 </div>
 </div>
 </section>
@@ -592,7 +607,7 @@ $ subset  &lt;int32&gt; 4, 8, 6, 3, 6, 5, 3, 7, 4, 6, 9, 5, 3, 1, 7, 5, 2, 9, 2,
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1.154 sec elapsed</code></pre>
+<pre><code>1.394 sec elapsed</code></pre>
 </div>
 </div>
 </section>
@@ -613,7 +628,7 @@ subset: int32</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.077 sec elapsed</code></pre>
+<pre><code>0.058 sec elapsed</code></pre>
 </div>
 </div>
 </section>
@@ -637,7 +652,7 @@ Call `print()` for query details</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.114 sec elapsed</code></pre>
+<pre><code>0.144 sec elapsed</code></pre>
 </div>
 </div>
 <ul>
@@ -883,7 +898,7 @@ $ infraspecific_authority &lt;chr&gt; NA, "ELPATJEVSKY, 1901", "NIKOLSKY, 1902"â
 <span id="cb47-2"><a href="#cb47-2"></a>py_taxa <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(r_taxa)</span>
 <span id="cb47-3"><a href="#cb47-3"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1.297 sec elapsed</code></pre>
+<pre><code>1.446 sec elapsed</code></pre>
 </div>
 </div>
 <p><br></p>
