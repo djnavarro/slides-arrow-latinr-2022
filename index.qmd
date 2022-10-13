@@ -102,10 +102,16 @@ Bridging languages, hardware, and people
 
 ## Arrow in the R Ecosystem
 
-- Analyze, process, and write multi-file parquet, csv, S3 buckets, etc
-- Larger-than-memory data sets
-- Analyze Arrow data using dplyr verbs
+- Read/write: multi-file Parquet data, csv, etc
+- Compute engine: Analyze Arrow data with dplyr syntax
+- Larger than memory data: Dataset interface
+- Remote storage: Amazon S3, Google cloud
+- Streaming Arrow data over networks with Arrow Flight
 - And more...
+
+## Arrow in the R Ecosystem
+
+![](img/arrow-read-write.jpg)
 
 ## Arrow in the R Ecosystem
 

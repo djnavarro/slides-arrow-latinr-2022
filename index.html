@@ -464,25 +464,31 @@ copyright Voltron Data, usage for this talk is permissible
 <section id="arrow-in-the-r-ecosystem-1" class="slide level2">
 <h2>Arrow in the R Ecosystem</h2>
 <ul>
-<li>Analyze, process, and write multi-file parquet, csv, S3 buckets, etc</li>
-<li>Larger-than-memory data sets</li>
-<li>Analyze Arrow data using dplyr verbs</li>
+<li>Read/write: multi-file Parquet data, csv, etc</li>
+<li>Compute engine: Analyze Arrow data with dplyr syntax</li>
+<li>Larger than memory data: Dataset interface</li>
+<li>Remote storage: Amazon S3, Google cloud</li>
+<li>Streaming Arrow data over networks with Arrow Flight</li>
 <li>And moreâ€¦</li>
 </ul>
 </section>
 <section id="arrow-in-the-r-ecosystem-2" class="slide level2">
 <h2>Arrow in the R Ecosystem</h2>
 
-<img data-src="img/dplyr-backends-1.png" class="r-stretch"></section>
+<img data-src="img/arrow-read-write.jpg" class="r-stretch"></section>
 <section id="arrow-in-the-r-ecosystem-3" class="slide level2">
 <h2>Arrow in the R Ecosystem</h2>
 
-<img data-src="img/dplyr-backends-2.png" class="r-stretch"></section>
+<img data-src="img/dplyr-backends-1.png" class="r-stretch"></section>
 <section id="arrow-in-the-r-ecosystem-4" class="slide level2">
 <h2>Arrow in the R Ecosystem</h2>
 
-<img data-src="img/dplyr-backends-3.png" class="r-stretch"></section>
+<img data-src="img/dplyr-backends-2.png" class="r-stretch"></section>
 <section id="arrow-in-the-r-ecosystem-5" class="slide level2">
+<h2>Arrow in the R Ecosystem</h2>
+
+<img data-src="img/dplyr-backends-3.png" class="r-stretch"></section>
+<section id="arrow-in-the-r-ecosystem-6" class="slide level2">
 <h2>Arrow in the R Ecosystem</h2>
 
 <img data-src="img/dplyr-backends-4.png" class="r-stretch"></section>
@@ -739,7 +745,7 @@ $ infraspecific_authority &lt;chr&gt; NA, "ELPATJEVSKY, 1901", "NIKOLSKY, 1902"â
 <span id="cb23-2"><a href="#cb23-2"></a>py_taxa <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(r_taxa)</span>
 <span id="cb23-3"><a href="#cb23-3"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1.039 sec elapsed</code></pre>
+<pre><code>0.997 sec elapsed</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -806,7 +812,7 @@ $ infraspecific_authority &lt;string&gt; NA, "ELPATJEVSKY, 1901", "NIKOLSKY, 190
 <span id="cb29-2"><a href="#cb29-2"></a>py_taxa_arrow <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(r_taxa_arrow)</span>
 <span id="cb29-3"><a href="#cb29-3"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.005 sec elapsed</code></pre>
+<pre><code>0.004 sec elapsed</code></pre>
 </div>
 </div>
 <p><br></p>
