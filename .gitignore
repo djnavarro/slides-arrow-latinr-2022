@@ -2,5 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-
 /.quarto/
+random_data.csv
+random_data.parquet

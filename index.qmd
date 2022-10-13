@@ -144,6 +144,19 @@ library(arrow)
 library(tictoc)
 ```
 
+# Everyday data tasks with Arrow
+
+## Read a CSV to a data frame
+
+## Read a CSV to an Arrow table
+
+## Read a Parquet file
+
+## Open a multi-file dataset
+
+## Use dplyr syntax with Arrow data
+
+
 
 # Case study 1: [Visualizing a billion rows of data in less time than it takes to make a cup of coffee](https://blog.djnavarro.net/visualising-a-billion-rows/)
 
