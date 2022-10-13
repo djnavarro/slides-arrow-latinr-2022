@@ -4,7 +4,7 @@ library(tibble)
 
 set.seed(3567)
 
-n <- 2000000
+n <- 20000000
 dat <- tibble(
   junk01 = rnorm(n),
   junk02 = rnorm(n),

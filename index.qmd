@@ -148,14 +148,43 @@ library(tictoc)
 
 ## Read a CSV to a data frame
 
+```{r read-csv-dataframe}
+tic()
+"random_data.csv" |> 
+  read_csv_arrow() |> 
+  glimpse()
+toc()
+```
+
 ## Read a CSV to an Arrow table
+
+```{r read-csv-table}
+tic()
+"random_data.csv" |> 
+  read_csv_arrow(as_data_frame = FALSE) |> 
+  glimpse()
+toc()
+```
+
 
 ## Read a Parquet file
 
+```{r read-parquet-table}
+tic()
+"random_data.parquet" |> 
+  read_parquet(as_data_frame = FALSE) |> 
+  glimpse()
+toc()
+```
+
+
 ## Open a multi-file dataset
+
+TO DO
 
 ## Use dplyr syntax with Arrow data
 
+TO DO
 
 
 # Case study 1: [Visualizing a billion rows of data in less time than it takes to make a cup of coffee](https://blog.djnavarro.net/visualising-a-billion-rows/)
