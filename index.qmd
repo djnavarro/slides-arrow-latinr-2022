@@ -146,13 +146,13 @@ library(tictoc)
 
 # Everyday data tasks with Arrow
 
+...and 100 million rows of noise
+
 ## Read a CSV to a data frame
 
 ```{r read-csv-dataframe}
 tic()
-"random_data.csv" |> 
-  read_csv_arrow() |> 
-  glimpse()
+read_csv_arrow("random_data.csv") |> glimpse()
 toc()
 ```
 
@@ -160,32 +160,51 @@ toc()
 
 ```{r read-csv-table}
 tic()
-"random_data.csv" |> 
-  read_csv_arrow(as_data_frame = FALSE) |> 
-  glimpse()
+read_csv_arrow("random_data.csv", as_data_frame = FALSE) |> glimpse()
 toc()
 ```
 
 
-## Read a Parquet file
+## Read from Parquet to a data frame
+
+```{r read-parquet-dataframe}
+tic()
+read_parquet("random_data.parquet") |> glimpse()
+toc()
+```
+
+
+## Read from Parquet to an Arrow table
 
 ```{r read-parquet-table}
 tic()
-"random_data.parquet" |> 
-  read_parquet(as_data_frame = FALSE) |> 
-  glimpse()
+read_parquet("random_data.parquet", as_data_frame = FALSE) |> glimpse()
 toc()
 ```
 
 
 ## Open a multi-file dataset
 
-TO DO
+```{r open-dataset}
+tic()
+ds <- open_dataset("random_data")
+ds
+toc()
+```
+
 
 ## Use dplyr syntax with Arrow data
 
-TO DO
+```{r dplyr-dataset}
+tic()
+ds |> 
+  filter(subset == 1) |>
+  glimpse()
+toc()
+```
 
+- Notice that total time for `ds` is fastest
+- This is because dataset only loads as needed
 
 # Case study 1: [Visualizing a billion rows of data in less time than it takes to make a cup of coffee](https://blog.djnavarro.net/visualising-a-billion-rows/)
 
