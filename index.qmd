@@ -170,9 +170,18 @@ library(tictoc)
 
 ...and 100 million rows of noise
 
-## Read a CSV to a data frame
+## Read a CSV
 
 ```{r read-csv-dataframe}
+tic()
+read_csv("random_data.csv") |> glimpse()
+toc()
+```
+
+
+## Read a CSV using Arrow
+
+```{r read-csv-dataframe-2}
 tic()
 read_csv_arrow("random_data.csv") |> glimpse()
 toc()
@@ -207,10 +216,19 @@ toc()
 
 ## Open a multi-file dataset
 
+Sometimes large tables are split over many files:
+
+```{r list-files}
+list.files("random_data", recursive = TRUE)
+```
+
+<br>
+
+Use `open_dataset()` to connect to the table:
+
 ```{r open-dataset}
 tic()
 ds <- open_dataset("random_data")
-ds
 toc()
 ```
 
@@ -225,8 +243,6 @@ ds |>
 toc()
 ```
 
-- Notice that total time for `ds` is fastest
-- This is because dataset only loads as needed
 
 # Case study 1: [Visualizing a billion rows of data in less time than it takes to make a cup of coffee](https://blog.djnavarro.net/visualising-a-billion-rows/)
 
